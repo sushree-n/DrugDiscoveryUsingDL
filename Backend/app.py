@@ -10,7 +10,7 @@ from predictor import predict_properties
 from utils import build_prompt  
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "https://drugdiscoveryusingdl-1.onrender.com"}})
 
 # Load environment variables
 load_dotenv()
@@ -19,9 +19,10 @@ DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 # Load models once on server start
 models = load_transformer_models()
 
-@app.route("/ping", methods=["GET"])
-def ping():
-    return jsonify({"message": "Backend is up and running!"})
+@app.route("/", methods=["GET"])
+def index():
+    return jsonify({"message": "Flask backend is live"})
+
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -73,3 +74,6 @@ def predict():
 
     except Exception as e:
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
