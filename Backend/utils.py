@@ -1,30 +1,42 @@
 def build_prompt(smiles, prediction):
     """
-    Builds an improved LLM prompt for generating a professional, well-structured scientific report.
+    Builds a more detailed and realistic LLM prompt for generating a contextual scientific report.
     """
     logP, logD, logS = prediction['logP'], prediction['logD'], prediction['logS']
     
-    prompt = f"""You are an expert drug discovery assistant trained in medicinal chemistry, ADMET profiling, and molecular pharmacokinetics.
+    prompt = f"""You are a senior scientist in drug discovery and pharmacokinetics with expertise in both early-phase candidate profiling and evaluation of legacy molecules.
 
-Analyze the following molecule and generate a structured, evidence-based scientific report:
+You are asked to analyze the following molecule for its suitability as a drug candidate, using both computational property predictions and contextual medicinal chemistry knowledge.
 
 **Molecular Input**
 - SMILES: {smiles}
 
-**Predicted Molecular Properties**
-- logP (lipophilicity): {logP}
-- logD (distribution coefficient at physiological pH): {logD}
-- logS (aqueous solubility): {logS}
+**Predicted Properties**
+- logP (partition coefficient): {logP}
+- logD (distribution coefficient at physiological pH 7.4): {logD}
+- logS (aqueous solubility in log mol/L): {logS}
 
 **Instructions**
-Evaluate the molecule based on the predicted properties and provide:
-1. **Bioavailability Considerations** — Discuss membrane permeability, hydrophilicity/lipophilicity balance, and potential absorption issues.
-2. **Solubility Assessment** — Interpret logS and its implications for oral or IV formulations.
-3. **Drug-likeness Evaluation** — Compare the properties to standard drug-likeness filters (e.g., Lipinski's Rule of Five, Veber rules).
+1. **Bioavailability & Permeability**
+   - Interpret the predicted logP and logD values.
+   - Assess membrane permeability potential and pKa/ionization behavior at physiological pH.
+   - Discuss potential challenges for oral absorption.
 
-Conclude with a recommendation:
-- Is the molecule a viable lead candidate for early-phase drug development? Answer with "Yes" or "No" followed by a brief justification.
+2. **Solubility & Formulation**
+   - Evaluate logS in the context of acceptable solubility ranges for oral drugs.
+   - Suggest formulation strategies (e.g., salt forms, co-crystals) if solubility is limited.
 
-Use a scientific and formal tone suitable for publication in a pharmaceutical R&D setting. Avoid repetition. Be concise yet informative.
+3. **Drug-Likeness & Rule-Based Profiling**
+   - Check compliance with Lipinski’s Rule of Five and Veber’s rule.
+   - Discuss the relevance and limitations of these rules, especially in the context of known, approved drugs.
+
+4. **Contextual Evaluation**
+   - If the molecule resembles or is known to be a clinically approved drug (e.g., aspirin), consider historical usage, known formulation approaches, and clinical viability.
+   - Clearly distinguish between theoretical limitations and real-world usage.
+
+**Final Recommendation**
+State whether the molecule is a viable lead candidate. Answer with "Yes" or "No" followed by a nuanced justification. If the molecule is known to be approved, explain why it still succeeded despite potential computational red flags.
+
+Use a scientific and formal tone suitable for pharmaceutical R&D and include all relevant caveats or assumptions. Avoid repetition.
 """
     return prompt
