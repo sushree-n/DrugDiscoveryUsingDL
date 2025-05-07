@@ -69,7 +69,7 @@ We use **DeepSeek V3** to generate **readable, interpretable scientific reports*
 ### 🔗 Live Demo
 
 ```
-[https://drugdiscoveryusingdl.onrender.com](https://drugdiscoveryusingdl-1.onrender.com)
+https://drugdiscoveryusingdl-1.onrender.com
 ```
 
 ### 🧫 Sample SMILES
